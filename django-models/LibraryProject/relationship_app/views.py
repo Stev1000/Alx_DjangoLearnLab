@@ -6,7 +6,7 @@ from .models import Book, Library  # Import your models here
 # Function-based View to list all books
 def list_books(request):
     books = Book.objects.all()  # Fetch all books from the database
-    return render(request, 'list_books.html', {'books': books})
+    return render(request, 'relationship_app/list_books.html', {'books': books})
 
 def library_detail(request, pk):
     library = Library.objects.get(pk=pk)
