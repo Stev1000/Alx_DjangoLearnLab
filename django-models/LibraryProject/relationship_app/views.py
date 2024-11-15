@@ -12,9 +12,13 @@ def library_detail(request, pk):
     library = Library.objects.get(pk=pk)
     return render(request, 'library_detail.html', {'library': library}) 
 
-from django.shortcuts import render
-from .models import Book  # Assuming 'Book' is the model that holds your books
+class LibraryDetailView(DetailView):
+    model = Library
+    template_name = 'relationship_app/library_detail.html'  # Specify the template for the view
+    context_object_name = 'library'  # Name to use in the template context
 
-def book_list(request):
-    books = Book.objects.all()  # Fetch all books from the database
-    return render(request, 'books/book_list.html', {'books': books})
+    def get_context_data(self, **kwargs):
+        # Get the context data to pass to the template
+        context = super().get_context_data(**kwargs)
+        context['books'] = self.object.books.all()  # Add the books related to the library
+        return context
