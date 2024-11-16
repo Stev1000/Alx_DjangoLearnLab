@@ -15,12 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # LibraryProject/urls.py
-
 from django.contrib import admin
 from django.urls import path, include
+from relationship_app.views import home_view  # Import the home view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('relationship_app.urls')),  # Include the URLs from the relationship app
+    path('admin/', admin.site.urls),  # Admin URL
+    path('', home_view, name='home'),  # Root URL should route to home_view
+    path('relationship/', include('relationship_app.urls')),  # Add relationship app URLs
 ]
 
