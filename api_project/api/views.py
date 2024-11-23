@@ -3,5 +3,5 @@ from .models import Book
 from .serializers import BookSerializer
 
 class BookList(ListAPIView):
-    queryset = Book.objects.all()
+    queryset = Book.objects.all()  # Fetches all book records
     serializer_class = BookSerializer
