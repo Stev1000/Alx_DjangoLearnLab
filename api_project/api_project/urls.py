@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
+
+# A simple view to return a welcome message or homepage
+def home(request):
+    return HttpResponse("Welcome to the API!")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # Include the API app's URLs (correctly pointing to the /books endpoint)
+    path('api/', include('api.urls')),  # Include the API app's URLs
+    path('', home, name='home'),  # Route for the root URL
 ]
 
