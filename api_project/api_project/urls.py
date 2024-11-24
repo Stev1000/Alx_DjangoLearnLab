@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 # A simple view to return a welcome message or homepage
 def home(request):
@@ -26,5 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),  # Include the API app's URLs
     path('', home, name='home'),  # Route for the root URL
+    #path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('api/token/', obtain_auth_token, name='api_token_auth'),
 ]
 
