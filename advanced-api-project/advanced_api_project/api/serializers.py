@@ -2,6 +2,11 @@ from rest_framework import serializers
 from .models import Author, Book
 #from datetime import date
 
+"""
+The AuthorSerializer serializes the Author model,
+and includes a nested BookSerializer to show all books related to the author.
+"""
+
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
