@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!h=7#%zf8gu_@_av906^y&aw-n6@(s$(%*4vf*wm9q&pqoi97z'
+SECRET_KEY = 'django-insecure-g4t&jrn2^5mly+42uu6xc%y-j_59h_mmt44v07=1#d%+vb6vrz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -52,13 +52,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'django_blog.urls'
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'blog/static']
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'blog/templates'],
+        'DIRS': [
+            BASE_DIR / 'blog/templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +69,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'django_blog.wsgi.application'
 
@@ -119,7 +119,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'blog/static',
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
