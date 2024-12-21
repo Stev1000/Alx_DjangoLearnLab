@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Project</title>
+</head>
+<body>
+    <h1>Welcome to the Library</h1>
+    <nav>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'login' %}">Login</a> | 
+            <a href="{% url 'register' %}">Register</a>
+        {% else %}
+            <a href="{% url 'logout' %}">Logout</a>
+        {% endif %}
+    </nav>
+
+    <!-- Content goes here -->
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
