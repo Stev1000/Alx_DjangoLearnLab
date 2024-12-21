@@ -1,6 +1,5 @@
-# relationship_app/urls.py
 from django.urls import path
-from .views import list_books, LibraryDetailView, CustomLoginView, CustomLogoutView, register_view  # Import auth views
+from .views import list_books, LibraryDetailView, CustomLoginView, CustomLogoutView, register_view  # Import views
 
 urlpatterns = [
     path('books/', list_books, name='list_books'),  # Function-based view for listing books
