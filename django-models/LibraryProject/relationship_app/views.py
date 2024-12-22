@@ -16,30 +16,30 @@ def list_books(request):
     books = Book.objects.all()
     return render(request, 'relationship_app/list_books.html', {'books': books})
 
-# Role-based views
-def admin_check(user):
-    return user.userprofile.role == 'Admin'
-
-def librarian_check(user):
-    return user.userprofile.role == 'Librarian'
-
-def member_check(user):
+# Role-based access checks
+def is_member(user):
     return user.userprofile.role == 'Member'
 
+def is_librarian(user):
+    return user.userprofile.role == 'Librarian'
+
+def is_admin(user):
+    return user.userprofile.role == 'Admin'
+
 # Admin view - Only Admin can access
-@user_passes_test(admin_check)
+@user_passes_test(is_admin)
 def admin_view(request):
-    return HttpResponse("Welcome Admin")
+    return render(request, 'relationship_app/admin_view.html')
 
 # Librarian view - Only Librarian can access
-@user_passes_test(librarian_check)
+@user_passes_test(is_librarian)
 def librarian_view(request):
-    return HttpResponse("Welcome Librarian")
+    return render(request, 'relationship_app/librarian_view.html')
 
 # Member view - Only Member can access
-@user_passes_test(member_check)
+@user_passes_test(is_member)
 def member_view(request):
-    return HttpResponse("Welcome Member")
+    return render(request, 'relationship_app/member_view.html')
 
 # Class-based view for Library details
 class LibraryDetailView(DetailView):
