@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.views.generic import DetailView
 from .models import Book, Library, UserProfile, Author
-from django.contrib.auth.decorators import user_passes_test, permission_required  # Corrected import
+from django.contrib.auth.decorators import permission_required, user_passes_test
 
 # Function-based view for the home page
 def home_view(request):
