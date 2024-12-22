@@ -4,8 +4,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.views.generic import DetailView
-from .models import Book, Library, UserProfile
-from django.contrib.auth.decorators import user_passes_test
+from .models import Book, Library, UserProfile, Author  # Add Author here
+from django.contrib.auth.decorators import user_passes_test, permission_required
 
 # Function-based view for the home page
 def home_view(request):
@@ -41,6 +41,43 @@ def librarian_view(request):
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
+# Add book view - Only users with can_add_book permission can add books
+@permission_required('relationship_app.can_add_book')
+def add_book(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        author_id = request.POST['author']
+        publication_year = request.POST['publication_year']
+        author = Author.objects.get(id=author_id)
+        book = Book.objects.create(
+            title=title, author=author, publication_year=publication_year
+        )
+        return redirect('list_books')
+    authors = Author.objects.all()
+    return render(request, 'relationship_app/add_book.html', {'authors': authors})
+
+# Edit book view - Only users with can_change_book permission can edit books
+@permission_required('relationship_app.can_change_book')
+def edit_book(request, pk):
+    book = Book.objects.get(id=pk)
+    if request.method == 'POST':
+        book.title = request.POST['title']
+        book.author = Author.objects.get(id=request.POST['author'])
+        book.publication_year = request.POST['publication_year']
+        book.save()
+        return redirect('list_books')
+    authors = Author.objects.all()
+    return render(request, 'relationship_app/edit_book.html', {'book': book, 'authors': authors})
+
+# Delete book view - Only users with can_delete_book permission can delete books
+@permission_required('relationship_app.can_delete_book')
+def delete_book(request, pk):
+    book = Book.objects.get(id=pk)
+    if request.method == 'POST':
+        book.delete()
+        return redirect('list_books')
+    return render(request, 'relationship_app/delete_book.html', {'book': book})
+
 # Class-based view for Library details
 class LibraryDetailView(DetailView):
     model = Library
@@ -53,7 +90,6 @@ class LibraryDetailView(DetailView):
         return context
 
 # Authentication views
-
 class CustomLoginView(LoginView):
     template_name = 'relationship_app/login.html'
 
