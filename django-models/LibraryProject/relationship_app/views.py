@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.views.generic import DetailView
-from .models import Book, Library, UserProfile, Author  # Add Author here
+from .models import Book, Library, UserProfile, Author
 from django.contrib.auth.decorators import user_passes_test, permission_required
 
 # Function-based view for the home page
