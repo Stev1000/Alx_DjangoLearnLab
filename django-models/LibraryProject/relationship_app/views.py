@@ -1,21 +1,47 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import DetailView  # Import the DetailView class
-from .models import Book, Library  # Import the Book and Library models
+from django.http import HttpResponse
+from django.views.generic import DetailView
+from .models import Book, Library, UserProfile
+from django.contrib.auth.decorators import user_passes_test
 
-# Existing function-based view for the home page
+# Function-based view for the home page
 def home_view(request):
     return HttpResponse("Welcome to the Library Project!")
 
 # Function-based view to list all books
 def list_books(request):
-    books = Book.objects.all()  # Get all books from the database
+    books = Book.objects.all()
     return render(request, 'relationship_app/list_books.html', {'books': books})
 
-# Class-based view to display details for a specific library
+# Role-based views
+def admin_check(user):
+    return user.userprofile.role == 'Admin'
+
+def librarian_check(user):
+    return user.userprofile.role == 'Librarian'
+
+def member_check(user):
+    return user.userprofile.role == 'Member'
+
+# Admin view - Only Admin can access
+@user_passes_test(admin_check)
+def admin_view(request):
+    return HttpResponse("Welcome Admin")
+
+# Librarian view - Only Librarian can access
+@user_passes_test(librarian_check)
+def librarian_view(request):
+    return HttpResponse("Welcome Librarian")
+
+# Member view - Only Member can access
+@user_passes_test(member_check)
+def member_view(request):
+    return HttpResponse("Welcome Member")
+
+# Class-based view for Library details
 class LibraryDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
@@ -28,11 +54,9 @@ class LibraryDetailView(DetailView):
 
 # Authentication views
 
-# Custom Login view
 class CustomLoginView(LoginView):
     template_name = 'relationship_app/login.html'
 
-# Custom Logout view
 class CustomLogoutView(LogoutView):
     template_name = 'relationship_app/logout.html'
 
@@ -42,8 +66,8 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Log the user in after registration
-            return redirect('/')  # Redirect to homepage after successful registration
+            login(request, user)
+            return redirect('/')
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
