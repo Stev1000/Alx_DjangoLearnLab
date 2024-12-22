@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.views.generic import DetailView
 from .models import Book, Library, UserProfile, Author
-from django.contrib.auth.decorators import user_passes_test, permission_required
+from django.contrib.auth.decorators import user_passes_test, permission_required  # Corrected import
 
 # Function-based view for the home page
 def home_view(request):
@@ -103,7 +103,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/')
+            return redirect('home')
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
