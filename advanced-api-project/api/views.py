@@ -28,7 +28,7 @@ class BookListView(generics.ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     
     # Enable filtering, searching, and ordering
-    filter_backends = (rest_framework.DjangoFilterBackend, SearchFilter, OrderingFilter)  # <-- Use correct reference here
+    filter_backends = (rest_framework.DjangoFilterBackend, SearchFilter, OrderingFilter)  # <-- Correct reference here
     filterset_class = BookFilter
     search_fields = ['title', 'author']  # Fields to search
     ordering_fields = ['title', 'publication_year']  # Fields to allow ordering by
