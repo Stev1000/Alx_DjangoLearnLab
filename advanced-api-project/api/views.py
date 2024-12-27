@@ -4,6 +4,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter  # <-- Ensure co
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend 
 import django_filters
 
 # Create a filter for the Book model
@@ -33,6 +34,7 @@ class BookListView(generics.ListAPIView):
     search_fields = ['title', 'author']  # Fields to search
     ordering_fields = ['title', 'publication_year']  # Fields to allow ordering by
     ordering = ['title']  # Default ordering field (ascending order)
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)  # Explicitly use OrderingFilter
 
 # DetailView: Retrieve a single book by ID
 class BookDetailView(generics.RetrieveAPIView):
