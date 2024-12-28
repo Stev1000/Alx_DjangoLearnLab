@@ -1,20 +1,15 @@
 from django.db import models
 
 class Author(models.Model):
-    """
-Author model: Represents a writer with a one-to-many relationship with books.
-Book model: Stores book information including a foreign key to the Author model.
-"""
-     # The Author model represents a book author with their name.
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.name  # Return the author's name
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    publication_year = models.IntegerField()
-    author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)  # Reference to Author model
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Add the price field
 
     def __str__(self):
-        return self.title
+        return self.title  # Return the book's title
