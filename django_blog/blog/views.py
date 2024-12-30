@@ -4,6 +4,10 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, ProfileUpdateForm
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to the Django Blog!")
 
 # Registration view using CustomUserCreationForm
 def register(request):
