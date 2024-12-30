@@ -1,55 +1,57 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
-#from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.http import HttpResponse
-#from .forms import UserProfileForm 
 from django.contrib import messages
-from .forms import ProfileUpdateForm
+from django.contrib.auth.forms import AuthenticationForm
+
+
 
 def home(request):
     return HttpResponse("Welcome to the Django Blog!")
 
-# Registration view using CustomUserCreationForm
+# Registration view
 def register(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)  # Use CustomUserCreationForm here
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Your account has been created!')
-            return redirect('login')  # After successful registration, redirect to login
+            user = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {user}!')
+            return redirect('login')
     else:
-        form = CustomUserCreationForm()  # Use CustomUserCreationForm here
-    return render(request, 'register.html', {'form': form})
+        form = CustomUserCreationForm()
+    return render(request, 'blog/register.html', {'form': form})
 
-# Profile view
-def profile(request):
-    """Display and edit profile information for authenticated users."""
+# Login view
+def login_view(request):
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, instance=request.user)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Your profile has been updated!')
+            user = form.get_user()
+            login(request, user)
             return redirect('profile')
     else:
-        form = ProfileUpdateForm(instance=request.user)
+        form = AuthenticationForm()
+    return render(request, 'blog/login.html', {'form': form})
 
-    return render(request, 'registration/profile.html', {'form': form})
+# Logout view
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
+# Profile view
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your profile has been updated!')
-            return redirect('profile')
-    else:
-        form = ProfileUpdateForm(instance=request.user)
+        user = request.user
+        user.email = request.POST['email']
+        user.save()
+        messages.success(request, 'Your profile has been updated.')
+    return render(request, 'blog/profile.html', {'user': request.user})
 
-    return render(request, 'registration/profile.html', {'form': form})
 
 @login_required
 def edit_profile(request):

@@ -127,7 +127,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'  
+# Optional: You can configure the static root to collect all static files in one place for production use.
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Include the directories where your app's static files are located.
+STATICFILES_DIRS = [
+    BASE_DIR /'./blog/static',  # For app-level static files
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
