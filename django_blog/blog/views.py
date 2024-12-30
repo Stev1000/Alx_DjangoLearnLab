@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.http import HttpResponse
+from .forms import UserProfileForm 
 
 def home(request):
     return HttpResponse("Welcome to the Django Blog!")
@@ -34,3 +35,13 @@ def profile(request):
         u_form = ProfileUpdateForm(instance=request.user)
 
     return render(request, 'registration/profile.html', {'u_form': u_form})
+def edit_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # Make sure 'profile' is a valid URL name
+    else:
+        form = UserProfileForm(instance=request.user)
+    
+    return render(request, 'blog/edit_profile.html', {'form': form})
