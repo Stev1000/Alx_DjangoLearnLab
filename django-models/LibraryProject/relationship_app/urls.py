@@ -14,10 +14,10 @@ from .views import (
 
 urlpatterns = [
     # Book-related paths
+    path('add_book/', add_book, name='add_book'),  # Add book explicitly
+    path('edit_book/<int:pk>/', edit_book, name='edit_book'),  # Edit book explicitly
     path('books/', list_books, name='list_books'),
-    path('books/add/', add_book, name='add_book'),  # Add a book
-    path('books/edit/<int:pk>/', edit_book, name='edit_book'),  # Edit a book
-    path('books/delete/<int:pk>/', delete_book, name='delete_book'),  # Delete a book
+    path('books/delete/<int:pk>/', delete_book, name='delete_book'),
 
     # Library detail path
     path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
