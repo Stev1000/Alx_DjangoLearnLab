@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
+
+# Define a simple view for the root URL
+def home(request):
+    return HttpResponse("<h1>Welcome to the Library Project</h1>")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('relationship_app/', include('relationship_app.urls')),
+    path('', home, name='home'),  # Root URL
+    path('relationship_app/', include('relationship_app.urls')),  # App URL
 ]
 
