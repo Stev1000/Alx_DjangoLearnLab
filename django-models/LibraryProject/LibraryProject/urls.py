@@ -25,6 +25,6 @@ def home(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),  # Root URL
-    path('relationship_app/', include('relationship_app.urls')),  # App URL
+    path('relationship_app/', include('relationship_app.urls')),  # Include app URLs
 ]
 
