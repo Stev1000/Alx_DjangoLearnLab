@@ -10,8 +10,5 @@ class BookList(ListAPIView):
 
 # ViewSet for CRUD operations
 class BookViewSet(ModelViewSet):
-    """
-    A viewset for performing CRUD operations on the Book model.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
