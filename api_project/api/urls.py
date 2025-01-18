@@ -6,11 +6,10 @@ from .views import BookList, BookViewSet
 router = DefaultRouter()
 router.register(r'books_all', BookViewSet, basename='book_all')
 
-# URL patterns
 urlpatterns = [
-    # List view (GET /books/)
+    # URL for the BookList view (required for the current task)
     path('books/', BookList.as_view(), name='book-list'),
-    
-    # Include router-generated routes for CRUD operations (GET, POST, PUT, DELETE)
+
+    # Include router-generated routes for CRUD operations (for the future task)
     path('', include(router.urls)),
 ]
