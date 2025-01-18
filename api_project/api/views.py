@@ -2,6 +2,10 @@ from rest_framework.generics import ListAPIView  # Import for ListAPIView
 from rest_framework import viewsets  # Import for ViewSet
 from .models import Book
 from .serializers import BookSerializer
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAdminOrReadOnly
+
+
 
 # View for listing all books (for the current task)
 class BookList(ListAPIView):
@@ -18,3 +22,5 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
+
